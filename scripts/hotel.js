@@ -11,59 +11,105 @@ let hotelRates = [{ roomType: "Queen", maxOccupancy: 5, highSeasonRate: 250.00, 
 window.onload = function() {
     const roomTypeField = document.getElementById("roomType");
     const checkinDateField = document.getElementById("checkinDate");
+    const checkoutDateField = document.getElementById("checkoutDate");
     const noOfNightsField = document.getElementById("noOfNights");
     const adultsField = document.getElementById("adults");
     const kidsField = document.getElementById("kids");
-    const breakfastField = document.querySelectorAll("input[name=breakfast]");
-    const discountField = document.querySelectorAll("input[name=discount]");
+    const breakfastField = document.querySelector("input[name=breakfast]:checked");
+    const discountField = document.querySelector("input[name=discount]:checked");
     const estimate = document.getElementById("estimate");
     const reset = document.getElementById("reset");
+    const resultDiv = document.getElementById("results")
+    const alertDiv = document.getElementById("alert")
 
-    let roomInfo = getRoomInfo("Queeen");
 
     let isRoomAvailable = canRoomHoldCustomer("Queen", 1, 1);
     console.log("is room availa " + isRoomAvailable);
 
+    initializeDates();
+
+    checkinDateField.onblur = displayNumberOfNights;
+    checkoutDateField.onblur = displayNumberOfNights;
+    checkinDateField.onkeyup = displayNumberOfNights;
+    checkoutDateField.onkeyup = displayNumberOfNights;
+    noOfNightsField.onkeyup = displayCheckoutDate;
+
     estimate.onclick = calculateAndDisplayRoomCost;
-    /*    noOdScoops.onchange = displayPrice;
-        hotFudge.onclick = displayPrice;
-        sprinkle.onclick = displayPrice;
-        whipCream.onclick = displayPrice;
-    */
+
     reset.onclick = clearResults;
-
-    function displayEsimate() {
-
-        let roomCost = calculateRoomCost();
-        results.style.display = "block";
-        results.innerHTML = "<strong>Room Cost:</strong> $" + roomCost.toFixed(2);
-
-    }
-
 
     //Calculate the room cost
     function calculateAndDisplayRoomCost() {
-        let roomCost = 0.0;
-        let discount = 0.0;
+
         let breakfastCost = 0.0;
 
-        roomCost = getRoomCost(roomTypeField.value, checkinDateField.value, noOfNightsField.value);
-        discount = getDiscount(roomCost, "AAA");
-        breakfastCost = getbreakfastCost(adultsField.value, kidsField.value, noOfNightsField.value, "");
+        if (!validateNumNights()) {
+            return;
+        };
 
+        if (!canRoomHoldCustomer(roomTypeField.value, adultsField.value, kidsField.value)) {
+            alertDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            alertDiv.innerHTML = "The room  type " + roomTypeField.value + " cannot hold all the occupants.";
+            return;
+        }
 
-        results.style.display = "block";
-        results.innerHTML = "<p><strong>Car Rental:</strong> $" + (roomCost + breakfastCost).toFixed(2) + "</p>" +
-            "<p><strong>Options:</strong> $" + discount.toFixed(2) + "</p>" +
-            "<p><strong>Surchange:</strong> $" + breakfastCost.toFixed(2) + "</p>";
+        let roomCost = getRoomCost(roomTypeField.value, checkinDateField.value, noOfNightsField.value);
 
+        let discountType = document.querySelector("input[name=discount]:checked").value;
+        let discount = getDiscount(roomCost, discountType);
 
+        let breakfastVal = document.querySelector("input[name=breakfast]:checked").value;
+        if (breakfastVal == "true") {
+            breakfastCost = getbreakfastCost(adultsField.value, kidsField.value, noOfNightsField.value, "");
+        }
+
+        let tax = (roomCost + breakfastCost - discount) * 0.12;
+        let totalCost = (roomCost + breakfastCost - discount) + tax;
+
+        alertDiv.style.display = "none";
+        resultDiv.style.display = "block";
+        resultDiv.innerHTML = "<p><strong>Hotel Cost:</strong> $" + (roomCost + breakfastCost).toFixed(2) + "</p>" +
+            "<p><strong>Discount:</strong> $" + discount.toFixed(2) + "</p>" +
+            "<p><strong>Tax:</strong> $" + tax.toFixed(2) + "</p>" +
+            "<p><strong>Total Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
     }
     //Clear the results
     function clearResults() {
-        document.getElementById("results").style.display = "none";
-        results.innerHTML = "";
+        resultDiv.style.display = "none";
+        alertDiv.style.display = "none";
     };
+
+    //validate the data
+    function validateNumNights() {
+
+        if (noOfNightsField.value > 28 || noOfNightsField.value <= 0) {
+            alertDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            alertDiv.innerHTML = "Cannot be more than 28 nights";
+
+            return false;
+        } else
+            return true;
+    }
+
+
+    function initializeDates() {
+        let today = new Date();
+        let todayString = getFormattDate(today);
+        checkinDateField.defaultValue = todayString;
+        checkoutDateField.defaultValue = todayString;
+    }
+
+    function displayNumberOfNights() {
+        noOfNightsField.value = getDateDiff(checkinDateField.value, checkoutDateField.value);
+    };
+
+    function displayCheckoutDate() {
+        let checkoutDate = getEndDate(checkinDateField.value, noOfNightsField.value)
+        checkoutDateField.value = getFormattDate(checkoutDate);
+    }
+
 }
 
 // returns the date into a string in yyyy-mm-dd format
@@ -88,9 +134,24 @@ function getDateDiff(startDate, endDate) {
     let elapsedMilliSec = endDate.getTime() - startDate.getTime();
     let dayDiff = elapsedMilliSec / msecPerDay;
     let numDays = Math.round(dayDiff);
-
-    return (numDays);
+    if (isNaN(numDays))
+        return 0;
+    else
+        return (numDays);
 };
+//Description: this is scripts calculates the end date of given start date and num of dates
+//Author: Sudesh pamidi
+function getEndDate(startDate, numDays) {
+
+    startDate = new Date(startDate);
+    const milliSecPerDay = 1000 * 60 * 60 * 24;
+    let endMilliSec = startDate.getTime() + milliSecPerDay * parseInt(numDays);
+
+    let endDate = new Date(endMilliSec);
+    return (endDate);
+};
+
+
 //This function return true/ false.
 //@parem  roomType(string) -- RoomType
 //@parem  numAdults(number) -- Number of Adults
@@ -152,16 +213,19 @@ function getbreakfastCost(numAdults, numKids, numNights, discountType) {
 function getDiscount(roomCostBeforeDiscount, discountType) {
 
     let discount = 0.0;
+    console.log("discountType: " + discountType);
     switch (discountType) {
-        case "AAA", "Senior":
+        case "AAA":
+        case "Senior":
             discount = roomCostBeforeDiscount * 0.1;
             break;
         case "Military":
             discount = roomCostBeforeDiscount * 0.2;
             break;
-        case "None": //no break;
+        case "None":
         default:
             discount = 0.0;
     };
+    console.log("discountType: " + discountType + ",  Discount: " + discount);
     return parseFloat(discount);
 };

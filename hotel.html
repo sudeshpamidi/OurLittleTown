@@ -75,7 +75,7 @@
                             <h2>Hotel Cost</h2>
                         </div>
                         <div class="form-group row">
-                            <label for="carType" class="col-sm-6 col-form-label">Room Type:</label>
+                            <label for="roomType" class="col-sm-6 col-form-label">Room Type:</label>
                             <div class="col-sm-6">
                                 <select class="custom-select" id="roomType" name="roomType">
                                         <option value="Queen">Queen</option>
@@ -89,25 +89,15 @@
                             <label for="checkinDate" class="col-sm-6 col-form-label">Check-In Date:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="date" class="form-control" placeholder="Check-In Date" id="checkinDate" name="checkinDate" aria-label="Check-In Date" aria-describedby="button-addon1" value="2019-08-05">
-                                    <!--
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
-                                    </div>
-                                    -->
+                                    <input type="date" class="form-control" id="checkinDate" name="checkinDate" aria-label="Check-In Date" value="2019-08-05">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="checkoutDate" class="col-sm-6 col-form-label">Check-out Date:</label>
+                            <label for="checkoutDate" class="col-sm-6 col-form-label">Check-Out Date:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="date" class="form-control" placeholder="Check-Out Date" id="checkoutDate" name="checkoutDate" aria-label="Check-Out Date" aria-describedby="button-addon2" value="2019-08-05">
-                                    <!--
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
-                                        </div>
-                                        -->
+                                    <input type="date" class="form-control" id="checkoutDate" name="checkoutDate" aria-label="Check-Out Date" value="2019-08-05">
                                 </div>
                             </div>
                         </div>
@@ -115,12 +105,7 @@
                             <label for="noOfNights" class="col-sm-6 col-form-label">Number of Nights:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="text" class="form-control" placeholder="Number of Night:" id="noOfNights" name="noOfNights" aria-label="Number of Nights" aria-describedby="button-addon2" value="1">
-                                    <!--
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-                                        </div>
-                                        -->
+                                    <input type="text" class="form-control" placeholder="Number of Night:" id="noOfNights" name="noOfNights" aria-label="Number of Nights" value="1">
                                 </div>
                             </div>
                         </div>
@@ -144,12 +129,11 @@
                                     <option value="4">4</option>
                                 </select>
                             </div>
-
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="form-check form-check-inline">
-                                    <p class="form-check-label mr-4"> Rate include in Breakfast</p>
+                                    <p class="form-check-label mr-4">Rate include in the breakfast?</p>
                                     <div class="custom-control custom-radio mr-3">
                                         <input type="radio" id="breakfastNo" name="breakfast" class="custom-control-input" value="false" checked>
                                         <label class="custom-control-label" for="breakfastNo">No</label>
@@ -170,19 +154,19 @@
                                     <p class="form-check-label mr-4">Discounts</p>
                                     <div class="custom-control custom-radio mr-3">
                                         <input class="custom-control-input" type="radio" id="discountNone" name="discount" value="None" checked>
-                                        <label class="custom-control-label" for="none">None</label>
+                                        <label class="custom-control-label" for="discountNone">None</label>
                                     </div>
                                     <div class="custom-control custom-radio mr-3">
                                         <input class="custom-control-input" type="radio" id="discountAAA" name="discount" value="AAA">
-                                        <label class="custom-control-label" for="aaa">AAA</label>
+                                        <label class="custom-control-label" for="discountAAA">AAA</label>
                                     </div>
                                     <div class="custom-control custom-radio mr-3">
                                         <input class="custom-control-input" type="radio" id="discountSenior" name="discount" value="Senior">
-                                        <label class="custom-control-label" for="senior">Senior</label>
+                                        <label class="custom-control-label" for="discountSenior">Senior</label>
                                     </div>
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input" type="radio" id="discountMilitary" name="discount" value="Military">
-                                        <label class="custom-control-label" for="military">Military</label>
+                                        <label class="custom-control-label" for="discountMilitary">Military</label>
                                     </div>
                                     <!--</fieldset>-->
                                 </div>
@@ -193,8 +177,8 @@
                             <button type="reset" class="btn btn-success" id="reset">Reset</button>
                         </p>
                     </form>
-                    <div class="result-box text-xl text-center" id="results"> Lalal
-                    </div>
+                    <div class="result-box text-xl text-center" id="results"></div>
+                    <div class="alert alert-danger" role="alert" id="alert"></div>
                 </div>
             </div>
 
