@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/stylesheet.css">
+    <title>Our Little Town</title>
+</head>
+
+<body>
+    <!--Nav Bar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="index.html">Our Little Town</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <div class="ml-auto">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="hotel.html">Hotel<span class="sr-only"></span></a>
+                    </li>
+
+                    <!--                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Calculators
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="mortgagecalculator.html"><i class="fas fa-home"></i> Mortgage
+                            </a>
+                            <a class="dropdown-item" href="futurevaluecalculator.html"><i
+                                    class="fas fa-hand-holding-usd"></i> Future Value </a>
+                            <a class="dropdown-item" href="presentvaluecalculator.html"><i
+                                    class="fas fa-calculator"></i> Present Value </a>
+                        </div>
+                    </li>
+-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--End of Nav Bar -->
+
+    <!--header -->
+    <header>
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <div class="container text-center">
+                <h1>Our Little Town</h1>
+                <p class="lead"> 2nd Aug 2019 | 18° C<span>
+                    </span></p>
+            </div>
+        </div>
+    </header>
+    <!--End header -->
+    <main>
+        <div class="container-fluid">
+            <!--Begining of row-->
+
+            <div class="row">
+                <div class="col-lg-4 offset-lg-4">
+                    <form class="bordered-box mb-2" id="frmicecream" action="#" method="GET">
+
+                        <div class="text-center mb-4">
+                            <img src="images/hotel.svg" class="bd-placeholder-img image-sm" alt="saving">
+                            <h2>Hotel Cost</h2>
+                        </div>
+                        <div class="form-group row">
+                            <label for="carType" class="col-sm-6 col-form-label">Room Type:</label>
+                            <div class="col-sm-6">
+                                <select class="custom-select" id="roomType" name="roomType">
+                                        <option value="Queen">Queen</option>
+                                        <option value="King">King</option>
+                                        <option value="King Suite">King Suite</option>                                    
+                                        <option value="2 Bedroom Suite">2 Bedroom Suite</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="checkinDate" class="col-sm-6 col-form-label">Check-In Date:</label>
+                            <div class="col-sm-6">
+                                <div class="input-group mb-1">
+                                    <input type="date" class="form-control" placeholder="Check-In Date" id="checkinDate" name="checkinDate" aria-label="Check-In Date" aria-describedby="button-addon1" value="2019-08-05">
+                                    <!--
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+                                    </div>
+                                    -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="checkoutDate" class="col-sm-6 col-form-label">Check-out Date:</label>
+                            <div class="col-sm-6">
+                                <div class="input-group mb-1">
+                                    <input type="date" class="form-control" placeholder="Check-Out Date" id="checkoutDate" name="checkoutDate" aria-label="Check-Out Date" aria-describedby="button-addon2" value="2019-08-05">
+                                    <!--
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="button-addon1">Button</button>
+                                        </div>
+                                        -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="noOfNights" class="col-sm-6 col-form-label">Number of Nights:</label>
+                            <div class="col-sm-6">
+                                <div class="input-group mb-1">
+                                    <input type="text" class="form-control" placeholder="Number of Night:" id="noOfNights" name="noOfNights" aria-label="Number of Nights" aria-describedby="button-addon2" value="1">
+                                    <!--
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                                        </div>
+                                        -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="adults" class="col-sm-3 col-form-label">Adults:</label>
+                            <div class="col-sm-3">
+                                <select class="custom-select" id="adults" name="adults">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>                                    
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                            <label for="kids" class="col-sm-3 col-form-label">Kids:</label>
+                            <div class="col-sm-3">
+                                <select class="custom-select" id="kids" name="kids">
+                                    <option value="1">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>                                    
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="form-check form-check-inline">
+                                    <p class="form-check-label mr-4"> Rate include in Breakfast</p>
+                                    <div class="custom-control custom-radio mr-3">
+                                        <input type="radio" id="breakfastNo" name="breakfast" class="custom-control-input" value="false" checked>
+                                        <label class="custom-control-label" for="breakfastNo">No</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="breakfastYes" name="breakfast" class="custom-control-input" value="true">
+                                        <label class="custom-control-label" for="breakfastYes">Yes</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="form-check form-check-inline">
+                                    <!--<fieldset>
+                                        <legend>Discounts</legend>-->
+                                    <p class="form-check-label mr-4">Discounts</p>
+                                    <div class="custom-control custom-radio mr-3">
+                                        <input class="custom-control-input" type="radio" id="discountNone" name="discount" value="None" checked>
+                                        <label class="custom-control-label" for="none">None</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mr-3">
+                                        <input class="custom-control-input" type="radio" id="discountAAA" name="discount" value="AAA">
+                                        <label class="custom-control-label" for="aaa">AAA</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mr-3">
+                                        <input class="custom-control-input" type="radio" id="discountSenior" name="discount" value="Senior">
+                                        <label class="custom-control-label" for="senior">Senior</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="discountMilitary" name="discount" value="Military">
+                                        <label class="custom-control-label" for="military">Military</label>
+                                    </div>
+                                    <!--</fieldset>-->
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            <a class="btn text-white btn-success" id="estimate" role="button">Estimate the Total Cost</a>
+                            <button type="reset" class="btn btn-success" id="reset">Reset</button>
+                        </p>
+                    </form>
+                    <div class="result-box text-xl text-center" id="results"> Lalal
+                    </div>
+                </div>
+            </div>
+
+            <!-- end of row -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Company 2017-2019</p>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="scripts/hotel.js"></script>
+</body>
+
+</html>
