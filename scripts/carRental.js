@@ -12,10 +12,8 @@ window.onload = function() {
     const gpsField = document.getElementById("gps");
     const roadSideAssistField = document.getElementById("roadSideAssist");
     const reset = document.getElementById("reset");
-    const under24Option = document.querySelectorAll("input[name=under25]"); // not in use
     const under24RdoNoRdo = document.getElementById("under25No");
     const under24RdoYesRdo = document.getElementById("under25Yes");
-    const imgTowTruck = document.getElementById("imgTowTruck"); // not in use
     const resultsDiv = document.getElementById("results")
     const alertDiv = document.getElementById("alert")
 
@@ -32,11 +30,14 @@ window.onload = function() {
 
     reset.onclick = clearResults;
 
-    pickupDateField.onblur = clearResults; //calculateNumberOfNights;
+    pickupDateField.onblur = clearResults;
     noOfDaysField.onkeyup = displayDropoffDate;
 
     initializeDates();
 
+    /** This function vaidates the screen input and calculates estimated cost for car rent.
+     * no parameters
+     */
     function displayEsimates() {
 
         if (!isDate(pickupDateField.value) || isNaN(noOfDaysField.value) || !(parseInt(noOfDaysField.value) > 0)) {
@@ -63,6 +64,9 @@ window.onload = function() {
             "<p><strong>Totsl Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
     }
 
+    /** to calculates basic car rent.
+     * no parameters
+     */
     function calculateBasicCarRent() {
 
         let carType = carTypeField;
@@ -85,6 +89,9 @@ window.onload = function() {
         return parseFloat(noOfDaysField.value) * carPrice;
     }
 
+    /** to calculates 30% of total car rent.
+     * @param(number) totalCarRent  
+     */
     function calculateUnder25Surcharge(totalCarRent) {
         let surchage = 0.0;
         let selectedOption = document.querySelector("input[name=under25]:checked").value;
@@ -94,7 +101,10 @@ window.onload = function() {
         return surchage;
     }
 
-    //Calculate the price
+
+    /** To calculate total of options
+     * no parameters
+     */
     function calculateOptions() {
         let options = 0.0;
         if (electronicTollField.checked) {
@@ -118,8 +128,9 @@ window.onload = function() {
         alertDiv.style.display = "none";
     };
 
-    //Function to initialize the date fiels to current date 
-    //takes no parameters  
+    /** Function to initialize the date fiels to current date 
+     * no parameters
+     */
     function initializeDates() {
         let today = new Date();
 
@@ -128,15 +139,19 @@ window.onload = function() {
         pickupDate.defaultValue = todayString;
         dropoffDate.defaultValue = todayString;
     }
-    //Function to populate the number of days field based of checkin and checkout dates
-    //takes no parameters  
+
+    /** Function to populate the number of days field based of checkin and checkout dates
+    //  takes no parameters  
+    */
     function calculateNumberOfNights() {
         let numNights = getDateDiff(pickupDateField.value, dropoffDateField.value);
         if (numNights == 0) { numNights = 1; }
         noOfDaysField.value = numNights;
     };
-    //Function to populate the checkout date based on number of days.
-    //takes no parameters  
+
+    /**Function to populate the checkout date based on number of days.
+     * no parameters  
+     */
     function displayDropoffDate() {
         clearResults();
         if (isDate(pickupDateField.value)) {

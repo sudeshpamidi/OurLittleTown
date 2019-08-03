@@ -22,8 +22,9 @@ window.onload = function() {
     const noOfNightsField = document.getElementById("noOfNights");
     const adultsField = document.getElementById("adults");
     const kidsField = document.getElementById("kids");
-    const breakfastFields = document.querySelectorAll("input[name=breakfast]"); // not in use
-    const discountField = document.querySelector("input[name=discount]:checked"); // not in use
+    const breakfastRdoNoRdo = document.getElementById("breakfastNo");
+    const breakfastRdoYesRdo = document.getElementById("breakfastYes");
+    const discountField = document.querySelectorAll("input[name=discount]");
     const estimate = document.getElementById("estimate");
     const reset = document.getElementById("reset");
     const resultDiv = document.getElementById("results")
@@ -32,16 +33,18 @@ window.onload = function() {
     // set the date fields to today.
     initializeDates();
 
-    // repopulate the num of nights/dates based on checkin/checkout dates
-    checkinDateField.onblur = displayNumberOfNights;
-    checkoutDateField.onblur = displayNumberOfNights;
-    checkinDateField.onkeyup = displayNumberOfNights;
-    checkoutDateField.onkeyup = displayNumberOfNights;
+    // clear the results when there any change in input fields
+    roomTypeField.onchange = clearResults;
+    checkinDateField.onblur = clearResults;
     noOfNightsField.onkeyup = displayCheckoutDate;
+    kidsField.onchange = clearResults;
+    kidsField.onchange = clearResults;
+    breakfastRdoNoRdo.onchange = clearResults;
+    breakfastRdoYesRdo.onchange = clearResults;
 
-    //for (var i = 0; i < breakfastFields.length; i++) {
-    //    breakfastFields[i].addEventListener("click", calculateAndDisplayRoomCost);
-    //}
+    for (var i = 0; i < discountField.length; i++) {
+        discountField[i].addEventListener("click", clearResults);
+    }
 
     //Displays the estimations on estimation button click
     estimate.onclick = displayEstimations;
@@ -49,8 +52,9 @@ window.onload = function() {
     // Clear the resulrs div
     reset.onclick = clearResults;
 
-    // Displays the calculated estimations.
-    // Also it validates the room occupency and number of days.
+    /** Displays the calculated estimations.
+     *   Also it validates the room occupency and number of days.
+     */
     function displayEstimations() {
 
         if (!validateNumNights()) {
@@ -84,15 +88,17 @@ window.onload = function() {
             "<p><strong>Total Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
     }
 
-    //Function to clear the results
-    //No parameters
+    /**Function to clear the results
+     *  No parameters
+     */
     function clearResults() {
         resultDiv.style.display = "none";
         alertDiv.style.display = "none";
     };
 
-    //Function to validate the data
-    //No parameters    
+    /** Function to validate the data
+     * No parameters    
+     */
     function validateNumNights() {
 
         let isValid = true;
@@ -117,8 +123,9 @@ window.onload = function() {
             return true;
     }
 
-    //Function to validate the Occupency 
-    //takes no parameters  
+    /**Function to validate the Occupency 
+     * no parameters  
+     */
     function validateRoomOccupency() {
         if (!canRoomHoldCustomer(roomTypeField.value, adultsField.value, kidsField.value)) {
             alertDiv.style.display = "block";
@@ -129,8 +136,9 @@ window.onload = function() {
             return true;
     }
 
-    //Function to initialize the date fiels to current date 
-    //takes no parameters  
+    /** Function to initialize the date fiels to current date 
+     *  takes no parameters  
+     */
     function initializeDates() {
         let today = new Date();
         document.getElementById("today").innerHTML = today.toDateString() + " | 18° C";
@@ -139,27 +147,36 @@ window.onload = function() {
         checkoutDateField.defaultValue = todayString;
     }
 
-    //Function to populate the number of days field based of checkin and checkout dates
-    //takes no parameters  
+    /**Function to populate the number of days field based of checkin and checkout dates
+     * takes no parameters  
+     */
     function displayNumberOfNights() {
         let numNights = getDateDiff(checkinDateField.value, checkoutDateField.value);
         if (numNights == 0) { numNights = 1; }
         noOfNightsField.value = numNights;
     };
 
-    //Function to populate the checkout date based on number of days.
-    //takes no parameters  
+    /** Function to populate the checkout date based on number of days.
+     * takes no parameters  
+     */
     function displayCheckoutDate() {
-        let checkoutDate = getEndDate(checkinDateField.value, noOfNightsField.value)
-        checkoutDateField.value = getFormattDate(checkoutDate);
+        clearResults();
+        if (isDate(checkinDateField.value)) {
+            let checkoutDate = getEndDate(checkinDateField.value, noOfNightsField.value)
+            checkoutDateField.value = getFormattDate(checkoutDate);
+        } else {
+            alertDiv.style.display = "block";
+            alertDiv.innerHTML = "Invalid Pickup Date.";
+        }
     }
 
 }
 
-//This function calculates estimated cost for hotel room.
-//@parem  roomType(string) -- RoomType
-//@parem  numAdults(date) -- check in Date
-//@parem  numNights(number) -- Number of Nights
+/** This function calculates estimated cost for hotel room.
+ * @parem  roomType(string) -- RoomType
+ * @parem  numAdults(date) -- check in Date
+ * @parem  numNights(number) -- Number of Nights
+ */
 function getRoomCost(roomType, checkinDate, numNights) {
 
     let chkoutDate = getEndDate(checkinDate, numNights)
@@ -188,10 +205,11 @@ function getRoomCost(roomType, checkinDate, numNights) {
 }
 
 
-//This function return true/ false.
-//@parem  roomType(string) -- RoomType
-//@parem  numAdults(number) -- Number of Adults
-//@parem  numKids(number) -- Number of kids
+/** This function return true/ false.
+ * @parem  roomType(string) -- RoomType
+ * @parem  numAdults(number) -- Number of Adults
+ * @parem  numKids(number) -- Number of kids
+ */
 function canRoomHoldCustomer(roomType, numAdults, numKids) {
 
     let numGuests = parseInt(numAdults) + parseInt(numKids);
@@ -204,8 +222,9 @@ function canRoomHoldCustomer(roomType, numAdults, numKids) {
         return false;
 }
 
-//This returns room object for given room type
-//@parem  roomType(string) -- RoomType
+/** This returns room object for given room type
+ * @parem  roomType(string) -- RoomType
+ */
 function getRoomInfo(roomType) {
 
     let room = hotelRooms.filter(function(o) {
@@ -214,11 +233,12 @@ function getRoomInfo(roomType) {
     return room;
 };
 
-//This function calculates the breakfast cost based on guest couunt and discount type.
-//@parem  numAdults(number) -- Number of Adults
-//@parem  numKids(number) -- Number of kids
-//@parem  numNights(number) -- Number of nights
-//@parem  discountType(string) -- Discount Type
+/** This function calculates the breakfast cost based on guest couunt and discount type.
+ * @parem  numAdults(number) -- Number of Adults
+ * @parem  numKids(number) -- Number of kids
+ * @parem  numNights(number) -- Number of nights
+ * @parem  discountType(string) -- Discount Type
+ */
 function getbreakfastCost(numAdults, numKids, numNights, discountType) {
 
     let breakfastCost = 0.0;
@@ -229,13 +249,13 @@ function getbreakfastCost(numAdults, numKids, numNights, discountType) {
     return parseFloat(breakfastCost);
 };
 
-//This function calculate the discount amount
-//@parem  roomCostBeforeDiscount(number) -- totol basic room cost
-//@parem  discountType(string) -- discount Type
+/** This function calculate the discount amount
+ * @parem  roomCostBeforeDiscount(number) -- totol basic room cost
+ * @parem  discountType(string) -- discount Type
+ */
 function getDiscount(roomCostBeforeDiscount, discountType) {
 
     let discount = 0.0;
-    console.log("discountType: " + discountType);
     switch (discountType) {
         case "AAA":
         case "Senior":
@@ -248,6 +268,5 @@ function getDiscount(roomCostBeforeDiscount, discountType) {
         default:
             discount = 0.0;
     };
-    console.log("discountType: " + discountType + ",  Discount: " + discount);
     return parseFloat(discount);
 };
