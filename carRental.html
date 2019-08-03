@@ -33,20 +33,6 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="carrental.html">Car<span class="sr-only"></span></a>
                     </li>
-                    <!--                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Calculators
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="mortgagecalculator.html"><i class="fas fa-home"></i> Mortgage
-                            </a>
-                            <a class="dropdown-item" href="futurevaluecalculator.html"><i
-                                    class="fas fa-hand-holding-usd"></i> Future Value </a>
-                            <a class="dropdown-item" href="presentvaluecalculator.html"><i
-                                    class="fas fa-calculator"></i> Present Value </a>
-                        </div>
-                    </li>
--->
                 </ul>
             </div>
         </div>
@@ -75,9 +61,11 @@
                         <div class="text-center">
                             <span>
                             <img src="images/car-rental.png" class="bd-placeholder-img image-sm" alt="Car Rental">
+                            <!-- need to work on this to dynamically display the images based in input selection
                             <img id ="imgTowTruck" src="images/tow-truck.png" class="bd-placeholder-img image-sm" alt="Road Side Assistance">
                             <img src="images/placeholder.png" class="bd-placeholder-img image-sm " alt="GPS">
                             <img src="images/toll-road.png" class="bd-placeholder-img image-sm" alt="Toll">
+                            -->
                         </span>
                             <h2>Rent A Car</h2>
                         </div>
@@ -96,7 +84,7 @@
                             <label for="pickupDate" class="col-sm-6 col-form-label">Pickup Date:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="date" class="form-control" placeholder="Pick Date" id="pickupDate" name="pickupDate" aria-label="Pick Date" value="2019-08-05">
+                                    <input type="date" class="form-control" id="pickupDate" name="pickupDate" aria-label="Pick Date" value="2019-08-05">
                                 </div>
                             </div>
                         </div>
@@ -104,7 +92,7 @@
                             <label for="dropoffDate" class="col-sm-6 col-form-label">Dropoff Date:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="date" class="form-control" placeholder="Dropoff Date" id="dropoffDate" name="dropoffDate" aria-label="Pick Date" value="2019-08-09">
+                                    <input type="date" class="form-control" id="dropoffDate" name="dropoffDate" aria-label="Pick Date" value="2019-08-09" disabled>
                                 </div>
                             </div>
                         </div>
@@ -152,13 +140,13 @@
 
                         </div>
                         <p>
-                            <a class="btn text-white btn-success" id="estimate" role="button">Esimate the Total Coast</a>
+                            <a class="btn text-white btn-success" id="estimate" role="button">Esimate Rental Cost</a>
                             <button type="reset" class="btn btn-success" id="reset">Reset</button>
                         </p>
                     </form>
                     <div class="result-box text-xl text-center" id="results">
                     </div>
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" id="alert">
                     </div>
                 </div>
             </div>
@@ -175,6 +163,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="scripts/carRental.js"></script>
+    <script src="scripts/date.js"></script>
 </body>
 
 </html>

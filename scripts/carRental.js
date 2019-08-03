@@ -1,121 +1,148 @@
+"use strict"
+
 window.onload = function() {
 
-        const pickupDateField = document.getElementById("pickupDate");
-        const noOfDaysField = document.getElementById("noOfDays");
-        const carTypeField = document.getElementById("carType");
-        const electronicTollField = document.getElementById("electronicToll");
-        const gpsField = document.getElementById("gps");
-        const roadSideAssistField = document.getElementById("roadSideAssist");
-        //const price = document.getElementById("price");
-        const reset = document.getElementById("reset");
-        const under24Option = document.querySelectorAll("input[name=under25]");
-        const imgTowTruck = document.getElementById("imgTowTruck");
+    const pickupDateField = document.getElementById("pickupDate");
+    const dropoffDateField = document.getElementById("dropoffDate");
+    const noOfDaysField = document.getElementById("noOfDays");
+    const carTypeField = document.getElementById("carType");
+    const electronicTollField = document.getElementById("electronicToll");
+    const gpsField = document.getElementById("gps");
+    const roadSideAssistField = document.getElementById("roadSideAssist");
+    const reset = document.getElementById("reset");
+    const under24Option = document.querySelectorAll("input[name=under25]");
+    const under24RdoNoRdo = document.getElementById("under25No");
+    const under24RdoYesRdo = document.getElementById("under25Yes");
+    const imgTowTruck = document.getElementById("imgTowTruck");
+    const resultsDiv = document.getElementById("results")
+    const alertDiv = document.getElementById("alert")
 
-        // binding the events 
-        estimate.onclick = displayEsimates;
-        electronicTollField.onclick = displayEsimates;
-        gpsField.onclick = displayEsimates;
-        roadSideAssistField.onclick = displayEsimates;
-        reset.onclick = clearResults;
 
+    // binding the events 
+    estimate.onclick = displayEsimates;
+
+    carTypeField.onchange = clearResults;
+    electronicTollField.onclick = clearResults;
+    gpsField.onclick = clearResults;
+    roadSideAssistField.onclick = clearResults;
+    under24RdoNoRdo.onchange = clearResults;
+    under24RdoYesRdo.onchange = clearResults;
+
+    reset.onclick = clearResults;
+
+    pickupDateField.onblur = clearResults; //calculateNumberOfNights;
+    noOfDaysField.onkeyup = displayDropoffDate;
+
+    initializeDates();
+
+    function displayEsimates() {
+
+        if (!isDate(pickupDateField.value) || isNaN(noOfDaysField.value)) {
+            alertDiv.style.display = "block";
+            alertDiv.innerText = "Eigther Date is invalid or Number of Days is not a number. The input fields should be positive numbers.";
+            return;
+        }
+        //recalculate the dropoff date, incase case there no input in num of days fields
+        displayDropoffDate();
+
+        let basicCarRent = calculateBasicCarRent();
+        let options = calculateOptions();
+        let under25Surcharge = calculateUnder25Surcharge(basicCarRent);
+        let totalCost = parseFloat(basicCarRent) + parseFloat(options) + parseFloat(under25Surcharge);
+        let pickupDate = new Date(pickupDateField.value);
+        let dropoffDate = new Date(dropoffDateField.value);
+
+        resultsDiv.style.display = "block";
+        resultsDiv.innerHTML = "<p><strong>Pickup Date:</strong> " + pickupDate.toLocaleDateString() + "</p>" +
+            "<p><strong>Pickup Date:</strong> " + dropoffDate.toLocaleDateString() + "</p>" +
+            "<p><strong>Car Rental:</strong> $" + basicCarRent.toFixed(2) + "</p>" +
+            "<p><strong>Options:</strong> $" + options.toFixed(2) + "</p>" +
+            "<p><strong>Surchange:</strong> $" + under25Surcharge.toFixed(2) + "</p>" +
+            "<p><strong>Totsl Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
+    }
+
+    function calculateBasicCarRent() {
+
+        let carType = carTypeField;
+        let carPrice = 29.99;
+
+        switch (carTypeField.options[carTypeField.selectedIndex].value) { // carTypeField.value
+            case "comp":
+                carPrice = 39.99;
+                break;
+            case "intm":
+                carPrice = 49.99;
+                break;
+            case "fsize":
+                carPrice = 59.99;
+                break;
+            case "eco":
+            default:
+                carPrice = 29.99;
+        };
+        console.log(parseFloat(noOfDaysField.value) * carPrice);
+        return parseFloat(noOfDaysField.value) * carPrice;
+    }
+
+    function calculateUnder25Surcharge(totalCarRent) {
+        let surchage = 0.0;
+        let selectedOption = document.querySelector("input[name=under25]:checked").value;
+        if (selectedOption == "true") {
+            surchage = 0.3 * parseFloat(noOfDaysField.value) * totalCarRent;
+        }
+        return surchage;
+    }
+
+    //Calculate the price
+    function calculateOptions() {
+        let options = 0.0;
+        if (electronicTollField.checked) {
+            options += parseFloat(electronicTollField.value);
+        }
+
+        if (gpsField.checked) {
+            options += parseFloat(gpsField.value);
+        }
+
+        if (roadSideAssistField.checked) {
+            options += parseFloat(roadSideAssistField.value);
+        }
+        //let totoal = parseFloat(noOfDaysField.value) * 29.99 + options;
+
+        return options;
+    }
+    //Clear the results
+    function clearResults() {
+        resultsDiv.style.display = "none";
+        alertDiv.style.display = "none";
+    };
+
+    //Function to initialize the date fiels to current date 
+    //takes no parameters  
+    function initializeDates() {
         let today = new Date();
         let todayString = getFormattDate(today);
-
-        pickupDateField.defaultValue = todayString; //"2014-02-09";
-
-        dropoffDate.defaultValue = "2019-08-09";
-
-        console.log(getDateDiff(pickupDateField.value, dropoffDate.value));
-
-        function displayEsimates() {
-            let basicCarRent = calculateBasicCarRent();
-            let options = calculateOptions();
-            let under25Surcharge = calculateUnder25Surcharge(basicCarRent);
-
-            results.style.display = "block";
-            results.innerHTML = "<p><strong>Car Rental:</strong> $" + basicCarRent.toFixed(2) + "</p>" +
-                "<p><strong>Options:</strong> $" + options.toFixed(2) + "</p>" +
-                "<p><strong>Surchange:</strong> $" + under25Surcharge.toFixed(2) + "</p>";
-        }
-
-        function calculateBasicCarRent() {
-
-            let carType = carTypeField;
-            let carPrice = 29.99;
-
-            switch (carTypeField.options[carTypeField.selectedIndex].value) { // carTypeField.value
-                case "comp":
-                    carPrice = 39.99;
-                    break;
-                case "intm":
-                    carPrice = 49.99;
-                    break;
-                case "fsize":
-                    carPrice = 59.99;
-                    break;
-                case "eco":
-                default:
-                    carPrice = 29.99;
-            };
-            return parseFloat(noOfDaysField.value) * carPrice;
-        }
-
-        function calculateUnder25Surcharge(totalCarRent) {
-            let surchage = 0.0;
-            let selectedOption = document.querySelector("input[name=under25]:checked").value;
-            if (selectedOption == "true") {
-                surchage = 0.3 * parseFloat(noOfDaysField.value) * totalCarRent;
-            }
-            return surchage;
-        }
-
-        //Calculate the price
-        function calculateOptions() {
-            let options = 0.0;
-            if (electronicTollField.checked) {
-                options += parseFloat(electronicTollField.value);
-            }
-
-            if (gpsField.checked) {
-                options += parseFloat(gpsField.value);
-            }
-
-            if (roadSideAssistField.checked) {
-                options += parseFloat(roadSideAssistField.value);
-            }
-            //let totoal = parseFloat(noOfDaysField.value) * 29.99 + options;
-
-            return options;
-        }
-        //Clear the results
-        function clearResults() {
-            document.getElementById("results").style.display = "none";
-            results.innerHTML = "";
-        };
-
+        pickupDate.defaultValue = todayString;
+        dropoffDate.defaultValue = todayString;
     }
-    // returns the date into a string in yyyy-mm-dd format
-function getFormattDate(date) {
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : "0" + month;
+    //Function to populate the number of days field based of checkin and checkout dates
+    //takes no parameters  
+    function calculateNumberOfNights() {
+        let numNights = getDateDiff(pickupDateField.value, dropoffDateField.value);
+        if (numNights == 0) { numNights = 1; }
+        noOfDaysField.value = numNights;
+    };
+    //Function to populate the checkout date based on number of days.
+    //takes no parameters  
+    function displayDropoffDate() {
+        clearResults();
+        if (isDate(pickupDateField.value)) {
+            let pickupDate = getEndDate(pickupDateField.value, noOfDaysField.value);
+            dropoffDateField.value = getFormattDate(pickupDate);
+        } else {
+            alertDiv.style.display = "block";
+            alertDiv.innerHTML = "Invalid Pickup Date.";
+        }
+    }
 
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : "0" + day;
-
-    return (date.getFullYear() + "-" + month + "-" + day);
-}
-
-//Description: this is scripts for lab execises for dates to find out the date differences
-//Author: Sudesh pamidi
-function getDateDiff(startDate, endDate) {
-
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
-
-    let msecPerDay = 1000 * 60 * 60 * 24;
-    let elapsedMilliSec = endDate.getTime() - startDate.getTime();
-    let dayDiff = elapsedMilliSec / msecPerDay;
-    let numDays = Math.round(dayDiff);
-
-    return (numDays);
 }
