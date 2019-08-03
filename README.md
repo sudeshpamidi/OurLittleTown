@@ -13,8 +13,9 @@ OurLittleTown.com is a cloud-enabled, mobile-ready, offline-storage, AngularJS p
 # New Features!
 
   - Home Page with the information about tiny out of way paradise, local images and navigation links.
-  -
-  -
+  - Car rental estimation
+  - Hotel rental cost 
+  - Tour explorer
 
 
 You can also:
@@ -42,7 +43,7 @@ OurLittleTown  uses a number of open source projects to work properly:
 * [Twitter Bootstrap] - great UI boilerplate for modern web apps
 * [Javascripts].
 
-And of course AmericanFinancials itself is open source with a [public repository]
+And of course OurLittleTown itself is open source with a [public repository]
  on GitHub.
  
  <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"                 title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"                 title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
