@@ -1,3 +1,5 @@
+//Dicription: This script contains supporting fucntions for carrental.html page
+//Authot : Sudesh Pamidi
 "use strict"
 
 window.onload = function() {
@@ -10,10 +12,10 @@ window.onload = function() {
     const gpsField = document.getElementById("gps");
     const roadSideAssistField = document.getElementById("roadSideAssist");
     const reset = document.getElementById("reset");
-    const under24Option = document.querySelectorAll("input[name=under25]");
+    const under24Option = document.querySelectorAll("input[name=under25]"); // not in use
     const under24RdoNoRdo = document.getElementById("under25No");
     const under24RdoYesRdo = document.getElementById("under25Yes");
-    const imgTowTruck = document.getElementById("imgTowTruck");
+    const imgTowTruck = document.getElementById("imgTowTruck"); // not in use
     const resultsDiv = document.getElementById("results")
     const alertDiv = document.getElementById("alert")
 
@@ -37,7 +39,7 @@ window.onload = function() {
 
     function displayEsimates() {
 
-        if (!isDate(pickupDateField.value) || isNaN(noOfDaysField.value)) {
+        if (!isDate(pickupDateField.value) || isNaN(noOfDaysField.value) || !(parseInt(noOfDaysField.value) > 0)) {
             alertDiv.style.display = "block";
             alertDiv.innerText = "Eigther Date is invalid or Number of Days is not a number. The input fields should be positive numbers.";
             return;
@@ -53,8 +55,8 @@ window.onload = function() {
         let dropoffDate = new Date(dropoffDateField.value);
 
         resultsDiv.style.display = "block";
-        resultsDiv.innerHTML = "<p><strong>Pickup Date:</strong> " + pickupDate.toLocaleDateString() + "</p>" +
-            "<p><strong>Pickup Date:</strong> " + dropoffDate.toLocaleDateString() + "</p>" +
+        resultsDiv.innerHTML = "<p><strong>Pickup Date:</strong> " + pickupDateField.value + "</p>" +
+            "<p><strong>Pickup Date:</strong> " + dropoffDateField.value + "</p>" +
             "<p><strong>Car Rental:</strong> $" + basicCarRent.toFixed(2) + "</p>" +
             "<p><strong>Options:</strong> $" + options.toFixed(2) + "</p>" +
             "<p><strong>Surchange:</strong> $" + under25Surcharge.toFixed(2) + "</p>" +
@@ -80,7 +82,6 @@ window.onload = function() {
             default:
                 carPrice = 29.99;
         };
-        console.log(parseFloat(noOfDaysField.value) * carPrice);
         return parseFloat(noOfDaysField.value) * carPrice;
     }
 
@@ -121,6 +122,8 @@ window.onload = function() {
     //takes no parameters  
     function initializeDates() {
         let today = new Date();
+
+        document.getElementById("today").innerHTML = today.toDateString() + " | 18° C";
         let todayString = getFormattDate(today);
         pickupDate.defaultValue = todayString;
         dropoffDate.defaultValue = todayString;

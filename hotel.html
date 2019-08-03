@@ -27,10 +27,13 @@
                         <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="hotel.html">Hotel<span class="sr-only"></span></a>
+                        <a class="nav-link" href="hotel.html">Hotel Booking<span class="sr-only"></span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="carrental.html">Car<span class="sr-only"></span></a>
+                        <a class="nav-link" href="carrental.html">Car Rental<span class="sr-only"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tourexplorer.html">Tour Explorer<span class="sr-only"></span></a>
                     </li>
                 </ul>
             </div>
@@ -44,8 +47,7 @@
         <div class="jumbotron">
             <div class="container text-center">
                 <h1>Our Little Town</h1>
-                <p class="lead"> 2nd Aug 2019 | 18° C<span>
-                    </span></p>
+                <p class="lead" id="today"> 2nd Aug 2019 | 18° C</p>
             </div>
         </div>
     </header>
@@ -53,11 +55,9 @@
     <main>
         <div class="container-fluid">
             <!--Begining of row-->
-
             <div class="row">
                 <div class="col-lg-4 offset-lg-4">
-                    <form class="bordered-box mb-2" id="frmicecream" action="#" method="GET">
-
+                    <form class="bordered-box mb-2" id="frmHotel" action="#" method="GET">
                         <div class="text-center mb-4">
                             <img src="images/hotel.svg" class="bd-placeholder-img image-sm" alt="saving">
                             <h2>Hotel Cost</h2>
@@ -85,7 +85,7 @@
                             <label for="checkoutDate" class="col-sm-6 col-form-label">Check-Out Date:</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb-1">
-                                    <input type="date" class="form-control" id="checkoutDate" name="checkoutDate" aria-label="Check-Out Date" value="2019-08-05">
+                                    <input type="date" class="form-control" id="checkoutDate" name="checkoutDate" aria-label="Check-Out Date" value="2019-08-05" disabled>
                                 </div>
                             </div>
                         </div>
@@ -137,9 +137,7 @@
                         <div class="form-group row">
                             <div class="col-sm-12">
                                 <div class="form-check form-check-inline">
-                                    <!--<fieldset>
-                                        <legend>Discounts</legend>-->
-                                    <p class="form-check-label mr-4">Discounts</p>
+                                    <p class="form-check-label mr-2">Discounts</p>
                                     <div class="custom-control custom-radio mr-3">
                                         <input class="custom-control-input" type="radio" id="discountNone" name="discount" value="None" checked>
                                         <label class="custom-control-label" for="discountNone">None</label>
@@ -156,7 +154,6 @@
                                         <input class="custom-control-input" type="radio" id="discountMilitary" name="discount" value="Military">
                                         <label class="custom-control-label" for="discountMilitary">Military</label>
                                     </div>
-                                    <!--</fieldset>-->
                                 </div>
                             </div>
                         </div>
@@ -182,6 +179,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="scripts/hotel.js"></script>
+    <script src="scripts/date.js"></script>
 </body>
 
 </html>
