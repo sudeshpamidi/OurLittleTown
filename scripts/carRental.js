@@ -1,5 +1,5 @@
 //Dicription: This script contains supporting fucntions for carrental.html page
-//Authot : Sudesh Pamidi
+//Authot :  Sudesh Pamidi
 "use strict"
 
 window.onload = function() {
