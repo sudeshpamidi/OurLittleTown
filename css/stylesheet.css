@@ -51,6 +51,7 @@ label {
     display: none;
 }
 
+.red,
 .error {
     color: red;
 }

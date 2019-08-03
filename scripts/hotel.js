@@ -1,56 +1,62 @@
-//Dicription:
+//Dicription: This script contains supporting fucntions for hotel.html page
 //Authot : Sudesh Pamidi
 "use strict"
 
-let hotelRates = [{ roomType: "Queen", maxOccupancy: 5, highSeasonRate: 250.00, lowSeasonRate: 150.00 },
+// hotelroom objects
+let hotelRooms = [{ roomType: "Queen", maxOccupancy: 5, highSeasonRate: 250.00, lowSeasonRate: 150.00 },
     { roomType: "King", maxOccupancy: 2, highSeasonRate: 250.00, lowSeasonRate: 150.00 },
     { roomType: "King Suite", maxOccupancy: 4, highSeasonRate: 310.00, lowSeasonRate: 190.00 },
     { roomType: "2 Bedroom Suite", maxOccupancy: 6, highSeasonRate: 350.00, lowSeasonRate: 210.00 }
 ];
 
+//peak season dates 
+let seasonStartDate = new Date('2019-05-01');
+let seasonEndDate = new Date('2019-09-30');
+
 window.onload = function() {
+
+    // getting all the controls tags
     const roomTypeField = document.getElementById("roomType");
     const checkinDateField = document.getElementById("checkinDate");
     const checkoutDateField = document.getElementById("checkoutDate");
     const noOfNightsField = document.getElementById("noOfNights");
     const adultsField = document.getElementById("adults");
     const kidsField = document.getElementById("kids");
-    const breakfastField = document.querySelector("input[name=breakfast]:checked");
-    const discountField = document.querySelector("input[name=discount]:checked");
+    const breakfastFields = document.querySelectorAll("input[name=breakfast]"); // not in use
+    const discountField = document.querySelector("input[name=discount]:checked"); // not in use
     const estimate = document.getElementById("estimate");
     const reset = document.getElementById("reset");
     const resultDiv = document.getElementById("results")
     const alertDiv = document.getElementById("alert")
 
-
-    let isRoomAvailable = canRoomHoldCustomer("Queen", 1, 1);
-    console.log("is room availa " + isRoomAvailable);
-
+    // set the date fields to today.
     initializeDates();
 
+    // repopulate the num of nights/dates based on checkin/checkout dates
     checkinDateField.onblur = displayNumberOfNights;
     checkoutDateField.onblur = displayNumberOfNights;
     checkinDateField.onkeyup = displayNumberOfNights;
     checkoutDateField.onkeyup = displayNumberOfNights;
     noOfNightsField.onkeyup = displayCheckoutDate;
 
-    estimate.onclick = calculateAndDisplayRoomCost;
+    //for (var i = 0; i < breakfastFields.length; i++) {
+    //    breakfastFields[i].addEventListener("click", calculateAndDisplayRoomCost);
+    //}
 
+    //Displays the estimations on estimation button click
+    estimate.onclick = displayEstimations;
+
+    // Clear the resulrs div
     reset.onclick = clearResults;
 
-    //Calculate the room cost
-    function calculateAndDisplayRoomCost() {
-
-        let breakfastCost = 0.0;
+    // Displays the calculated estimations.
+    // Also it validates the room occupency and number of days.
+    function displayEstimations() {
 
         if (!validateNumNights()) {
             return;
         };
-
-        if (!canRoomHoldCustomer(roomTypeField.value, adultsField.value, kidsField.value)) {
-            alertDiv.style.display = "block";
-            resultDiv.style.display = "none";
-            alertDiv.innerHTML = "The room  type " + roomTypeField.value + " cannot hold all the occupants.";
+        if (!validateRoomOccupency()) {
             return;
         }
 
@@ -59,6 +65,7 @@ window.onload = function() {
         let discountType = document.querySelector("input[name=discount]:checked").value;
         let discount = getDiscount(roomCost, discountType);
 
+        let breakfastCost = 0.0;
         let breakfastVal = document.querySelector("input[name=breakfast]:checked").value;
         if (breakfastVal == "true") {
             breakfastCost = getbreakfastCost(adultsField.value, kidsField.value, noOfNightsField.value, "");
@@ -70,30 +77,58 @@ window.onload = function() {
         alertDiv.style.display = "none";
         resultDiv.style.display = "block";
         resultDiv.innerHTML = "<p><strong>Hotel Cost:</strong> $" + (roomCost + breakfastCost).toFixed(2) + "</p>" +
-            "<p><strong>Discount:</strong> $" + discount.toFixed(2) + "</p>" +
+            "<p class='red'><strong>Discount:</strong> ($" + discount.toFixed(2) + ")</p>" +
             "<p><strong>Tax:</strong> $" + tax.toFixed(2) + "</p>" +
             "<p><strong>Total Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
     }
-    //Clear the results
+
+    //Function to clear the results
+    //No parameters
     function clearResults() {
         resultDiv.style.display = "none";
         alertDiv.style.display = "none";
     };
 
-    //validate the data
+    //Function to validate the data
+    //No parameters    
     function validateNumNights() {
 
+        let isValid = true;
+        if (checkinDateField.value == "" || checkoutDateField.value == "") {
+            alertDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            alertDiv.innerHTML = "Invalid Date(s).";
+            return false;
+        }
+        if (isNaN(noOfNightsField.value)) {
+            alertDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            alertDiv.innerHTML = "Number of Nights is invalid.";
+            return false;
+        }
         if (noOfNightsField.value > 28 || noOfNightsField.value <= 0) {
             alertDiv.style.display = "block";
             resultDiv.style.display = "none";
-            alertDiv.innerHTML = "Cannot be more than 28 nights";
-
+            alertDiv.innerHTML = "Invalid Date(s). Number of Nights is either invalid or cannot be more than 28 nights";
             return false;
         } else
             return true;
     }
 
+    //Function to validate the Occupency 
+    //takes no parameters  
+    function validateRoomOccupency() {
+        if (!canRoomHoldCustomer(roomTypeField.value, adultsField.value, kidsField.value)) {
+            alertDiv.style.display = "block";
+            resultDiv.style.display = "none";
+            alertDiv.innerHTML = "The room type " + roomTypeField.value + " cannot hold all the occupants.";
+            return false;
+        } else
+            return true;
+    }
 
+    //Function to initialize the date fiels to current date 
+    //takes no parameters  
     function initializeDates() {
         let today = new Date();
         let todayString = getFormattDate(today);
@@ -101,10 +136,16 @@ window.onload = function() {
         checkoutDateField.defaultValue = todayString;
     }
 
+    //Function to populate the number of days field based of checkin and checkout dates
+    //takes no parameters  
     function displayNumberOfNights() {
-        noOfNightsField.value = getDateDiff(checkinDateField.value, checkoutDateField.value);
+        let numNights = getDateDiff(checkinDateField.value, checkoutDateField.value);
+        if (numNights == 0) { numNights = 1; }
+        noOfNightsField.value = numNights;
     };
 
+    //Function to populate the checkout date based on number of days.
+    //takes no parameters  
     function displayCheckoutDate() {
         let checkoutDate = getEndDate(checkinDateField.value, noOfNightsField.value)
         checkoutDateField.value = getFormattDate(checkoutDate);
@@ -112,7 +153,9 @@ window.onload = function() {
 
 }
 
+// this is helper fucntion to format the date into "yyyy-mm-dd"
 // returns the date into a string in yyyy-mm-dd format
+// @parem (date) Date 
 function getFormattDate(date) {
     let month = (1 + date.getMonth()).toString();
     month = month.length > 1 ? month : "0" + month;
@@ -123,8 +166,9 @@ function getFormattDate(date) {
     return (date.getFullYear() + "-" + month + "-" + day);
 }
 
-//Description: this is scripts for lab execises for dates to find out the date differences
-//Author: Sudesh pamidi
+//this is helper fucntion to findout number of days between start date and end date
+// @parem (date) startDate
+// @parem (date) endDate
 function getDateDiff(startDate, endDate) {
 
     startDate = new Date(startDate);
@@ -139,8 +183,10 @@ function getDateDiff(startDate, endDate) {
     else
         return (numDays);
 };
-//Description: this is scripts calculates the end date of given start date and num of dates
-//Author: Sudesh pamidi
+
+// This is helper function to findout end date based start date and  number of days.
+// @parem (date) startDate
+// @parem (number) number of days
 function getEndDate(startDate, numDays) {
 
     startDate = new Date(startDate);
@@ -152,14 +198,34 @@ function getEndDate(startDate, numDays) {
 };
 
 
-//This function return true/ false.
+//This function calculates estimated cost for hotel room.
 //@parem  roomType(string) -- RoomType
-//@parem  numAdults(number) -- Number of Adults
-//@parem  numKids(number) -- Number of kids
+//@parem  numAdults(date) -- check in Date
+//@parem  numNights(number) -- Number of Nights
 function getRoomCost(roomType, checkinDate, numNights) {
 
+    let chkoutDate = getEndDate(checkinDate, numNights)
+    let chkinDate = new Date(checkinDate);
     let room = getRoomInfo(roomType);
     let roomCost = room[0].lowSeasonRate * parseInt(numNights);
+    let highSeasonDays = 0
+
+    if (chkinDate > seasonStartDate && chkoutDate < seasonEndDate) {
+        roomCost = room[0].highSeasonRate * parseInt(numNights);
+    }
+
+    if (chkinDate < seasonStartDate && chkoutDate > seasonStartDate) {
+
+        highSeasonDays = getDateDiff(chkinDate, seasonStartDate);
+        roomCost = room[0].highSeasonRate * parseInt(highSeasonDays) + room[0].lowSeasonRate * (numNights - highSeasonDays);
+    }
+
+    if (chkinDate < seasonEndDate && chkoutDate > seasonEndDate) {
+
+        highSeasonDays = getDateDiff(chkinDate, seasonEndDate);
+        roomCost = room[0].highSeasonRate * parseInt(highSeasonDays) + room[0].lowSeasonRate * (numNights - highSeasonDays);
+    }
+
     return parseFloat(roomCost);
 }
 
@@ -180,22 +246,21 @@ function canRoomHoldCustomer(roomType, numAdults, numKids) {
         return false;
 }
 
-//This function return true/ false.
+//This returns room object for given room type
 //@parem  roomType(string) -- RoomType
-//@parem  numAdults(number) -- Number of Adults
-//@parem  numKids(number) -- Number of kids
 function getRoomInfo(roomType) {
 
-    let room = hotelRates.filter(function(o) {
+    let room = hotelRooms.filter(function(o) {
         return (o.roomType == roomType);
     });
     return room;
 };
 
-//This function return true/ false.
-//@parem  roomType(string) -- RoomType
+//This function calculates the breakfast cost based on guest couunt and discount type.
 //@parem  numAdults(number) -- Number of Adults
 //@parem  numKids(number) -- Number of kids
+//@parem  numNights(number) -- Number of nights
+//@parem  discountType(string) -- Discount Type
 function getbreakfastCost(numAdults, numKids, numNights, discountType) {
 
     let breakfastCost = 0.0;
@@ -206,10 +271,9 @@ function getbreakfastCost(numAdults, numKids, numNights, discountType) {
     return parseFloat(breakfastCost);
 };
 
-//This function return true/ false.
-//@parem  roomType(string) -- RoomType
-//@parem  numAdults(number) -- Number of Adults
-//@parem  numKids(number) -- Number of kids
+//This function calculate the discount amount
+//@parem  roomCostBeforeDiscount(number) -- totol basic room cost
+//@parem  discountType(string) -- discount Type
 function getDiscount(roomCostBeforeDiscount, discountType) {
 
     let discount = 0.0;
