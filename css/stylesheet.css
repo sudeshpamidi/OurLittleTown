@@ -32,13 +32,11 @@ label {
 }
 */
 
-
-/*.bordered-box {
+.bordered-box {
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: 2px;
     padding: 25px;
 }
-*/
 
 .result-box {
     background-color: rgba(38, 128, 217, .2);
@@ -66,8 +64,8 @@ label {
 }
 
 .image-md {
-    width: 140px;
-    height: 140px;
+    width: 412px;
+    height: 240px;
 }
 
 .image-sm {

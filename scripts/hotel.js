@@ -76,7 +76,9 @@ window.onload = function() {
 
         alertDiv.style.display = "none";
         resultDiv.style.display = "block";
-        resultDiv.innerHTML = "<p><strong>Hotel Cost:</strong> $" + (roomCost + breakfastCost).toFixed(2) + "</p>" +
+        resultDiv.innerHTML = "<p><strong>Checkin Date:</strong> " + checkinDateField.value + "</p>" +
+            "<p><strong>Checkout Date:</strong> " + checkoutDateField.value + "</p>" +
+            "<p><strong>Hotel Cost:</strong> $" + (roomCost + breakfastCost).toFixed(2) + "</p>" +
             "<p class='red'><strong>Discount:</strong> ($" + discount.toFixed(2) + ")</p>" +
             "<p><strong>Tax:</strong> $" + tax.toFixed(2) + "</p>" +
             "<p><strong>Total Cost:</strong> $" + totalCost.toFixed(2) + "</p>";
@@ -131,6 +133,7 @@ window.onload = function() {
     //takes no parameters  
     function initializeDates() {
         let today = new Date();
+        document.getElementById("today").innerHTML = today.toDateString() + " | 18° C";
         let todayString = getFormattDate(today);
         checkinDateField.defaultValue = todayString;
         checkoutDateField.defaultValue = todayString;
@@ -152,51 +155,6 @@ window.onload = function() {
     }
 
 }
-
-// this is helper fucntion to format the date into "yyyy-mm-dd"
-// returns the date into a string in yyyy-mm-dd format
-// @parem (date) Date 
-function getFormattDate(date) {
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : "0" + month;
-
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : "0" + day;
-
-    return (date.getFullYear() + "-" + month + "-" + day);
-}
-
-//this is helper fucntion to findout number of days between start date and end date
-// @parem (date) startDate
-// @parem (date) endDate
-function getDateDiff(startDate, endDate) {
-
-    startDate = new Date(startDate);
-    endDate = new Date(endDate);
-
-    let msecPerDay = 1000 * 60 * 60 * 24;
-    let elapsedMilliSec = endDate.getTime() - startDate.getTime();
-    let dayDiff = elapsedMilliSec / msecPerDay;
-    let numDays = Math.round(dayDiff);
-    if (isNaN(numDays))
-        return 0;
-    else
-        return (numDays);
-};
-
-// This is helper function to findout end date based start date and  number of days.
-// @parem (date) startDate
-// @parem (number) number of days
-function getEndDate(startDate, numDays) {
-
-    startDate = new Date(startDate);
-    const milliSecPerDay = 1000 * 60 * 60 * 24;
-    let endMilliSec = startDate.getTime() + milliSecPerDay * parseInt(numDays);
-
-    let endDate = new Date(endMilliSec);
-    return (endDate);
-};
-
 
 //This function calculates estimated cost for hotel room.
 //@parem  roomType(string) -- RoomType

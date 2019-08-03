@@ -24,7 +24,7 @@
             <div class="ml-auto">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Home<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="hotel.html">Hotel Booking<span class="sr-only"></span></a>
@@ -32,7 +32,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="carrental.html">Car Rental<span class="sr-only"></span></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="tourexplorer.html">Tour Explorer<span class="sr-only"></span></a>
                     </li>
                 </ul>
@@ -47,8 +47,7 @@
         <div class="jumbotron">
             <div class="container text-center">
                 <h1>Our Little Town</h1>
-                <p class="lead"> 2nd Aug 2019 | 18° C<span>
-                    </span></p>
+                <p class="lead" id="today"> 2nd Aug 2019 | 18° C</p>
             </div>
         </div>
     </header>
@@ -57,29 +56,42 @@
         <div class="container-fluid">
             <!--Begining of row-->
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="text-center mb-4">
-                        <img src="images/hotelroom.jpeg" class="bd-placeholder-img  image-md" alt="saving">
-                    </div>
-                    <h2>Bedroom Suites</h2>
-                    <p>Explore the city right from our doorstep.. Originally home to the South African Reserve Bank and Temple Chambers and, later, the Board of Executors (BoE), Cape Town effortlessly combines the legacy of the old with the luxury of the
-                        new.
-                    </p>
+                <div class="col-lg-4 offset-lg-4">
+                    <form class="bordered-box mb-2" id="frmTour" action="#" method="GET">
+                        <div class="text-center">
+                            <span>
+                                <img src="images/earth-pictures.png" class="bd-placeholder-img image-sm"
+                                    alt="Ear Picture">
+                            </span>
+                            <h2>Tour Explorer</h2>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tourCategory" class="col-sm-6 col-form-label">Category:</label>
+                            <div class="col-sm-6">
+                                <select class="custom-select" id="tourCategory" name="tourCategory">
+                                    <option value="Sightseeing">Sightseeing</option>
+                                    <option value="Adventure">Adventure</option>
+                                    <option value="Museums/Galleries">Museums/Galleries</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-lg-4">
-                    <div class="text-center mb-4">
-                        <img src="images/restuarent.jpeg" class="bd-placeholder-img image-md" alt="saving">
-                    </div>
-                    <h2>Club House</h2>
-                    <p>Our Club Rooms and Suites offer all the benefits of the executive Club Lounge like butler service, evening canapés and private breakfast, while the One and Two Bedroom Suites are perfect for the discerning traveller or for families.</p>
-                </div>
-                <div class="col-lg-4 ">
-                    <div class="text-center mb-4">
-                        <img src="images/dining.jpeg" class="image-md bd-placeholder-img image-md" alt="saving">
-                    </div>
-                    <h2>Dining Experiences</h2>
-                    <p>We offer an array of dining experiences, from Afternoon Tea in The Lobby Lounge to Bombay Brasserie, our fine dining Indian specialty restaurant, and Mint Restaurant for relaxed all-day dining. The Twankey Bar specialises in handcrafted
-                        prohibition-era cocktails and delicious tapas-styled dishes. </p>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <table class="table" id="tableTours">
+                        <thead>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">Titles</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tourbody">
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <!-- end of row -->
@@ -93,6 +105,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="scripts/tourexplorer.js"></script>
 </body>
 
 </html>
